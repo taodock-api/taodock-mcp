@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.taodock-api/mcp-server",
+  "title": "TaoDock",
+  "description": "Generate images and videos with models enabled for a TaoDock API key.",
+  "websiteUrl": "https://taodock.com",
+  "repository": {
+    "url": "https://github.com/taodock-api/taodock-mcp",
+    "source": "github"
+  },
+  "version": "0.2.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@taodock/mcp-server",
+      "version": "0.2.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "TAODOCK_API_KEY",
+          "description": "TaoDock API key from https://taodock.com/keys",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "TAODOCK_BASE_URL",
+          "description": "Optional API base URL override; defaults to https://taodock.com/v1",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "TAODOCK_OUTPUT_DIR",
+          "description": "Directory for generated files; defaults to ./taodock-output",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@taodock/mcp-server",
+  "version": "0.2.0",
+  "description": "MCP server for TaoDock image and video generation.",
+  "license": "MIT",
+  "author": "TaoDock",
+  "homepage": "https://taodock.com",
+  "mcpName": "io.github.taodock-api/mcp-server",
+  "type": "module",
+  "bin": {
+    "taodock-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "PRIVACY.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsc -p tsconfig.test.json && node --test \"test-dist/test/**/*.test.js\"",
+    "pack:check": "npm run build && npm pack --dry-run",
+    "mcpb": "node build-mcpb.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "25.9.1",
+    "esbuild": "0.28.2",
+    "typescript": "6.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taodock-api/taodock-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taodock-api/taodock-mcp/issues"
+  }
+}
