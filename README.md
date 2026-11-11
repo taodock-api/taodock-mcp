@@ -49,7 +49,7 @@ Add the configuration above to:
 - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Windows: `%APPDATA%\\Claude\\claude_desktop_config.json`
 
-Restart Claude Desktop after saving. A GitHub Release may also provide a `taodock-mcp-<version>.mcpb` desktop extension.
+Restart Claude Desktop after saving. You can also install the signed release artifact from [GitHub Releases](https://github.com/taodock-api/taodock-mcp/releases/latest): `taodock-mcp-0.2.0.mcpb`.
 
 ### Cursor
 

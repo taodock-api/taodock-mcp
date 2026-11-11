@@ -58,7 +58,7 @@ const manifest = {
   },
   tools: [
     { name: 'list_models', description: 'List models available to the TaoDock API key.' },
-    { name: 'generate_image', description: 'Generate or edit an image and save it locally.' },
+    { name: 'generate_image', description: 'Generate an image and save it locally.' },
     { name: 'create_video', description: 'Start a TaoDock video generation task.' },
     { name: 'get_video_status', description: 'Read a TaoDock video task status.' },
     { name: 'download_video', description: 'Download a completed TaoDock video.' },
