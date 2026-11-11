@@ -20,10 +20,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Trusted Publishing requires npm CLI >= 11.5.1 and Node >= 22.14.0.
+      # Keep release builds tokenless so an npm credential cannot shadow OIDC.
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: npm
+          node-version: "22.14.0"
+          package-manager-cache: false
+      - name: Upgrade npm for OIDC support
+        run: npm install -g npm@^11.5.1 && npm --version
+      - name: Ensure no registry credential is configured
+        run: |
+          npm config delete //registry.npmjs.org/:_authToken || true
+          npm config delete //registry.npmjs.org/:_auth || true
+          if [ -n "$NODE_AUTH_TOKEN" ]; then echo "NODE_AUTH_TOKEN must not be set for OIDC publishing" >&2; exit 1; fi
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
@@ -36,6 +45,4 @@ jobs:
       - run: npm pack --dry-run
       - name: Publish with provenance
         if: github.event_name == 'push' || inputs.dry_run == false
-        run: |
-          npm config delete //registry.npmjs.org/:_authToken || true
-          npm publish --access public --provenance
+        run: npm publish --access public --provenance
