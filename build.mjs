@@ -1,9 +1,10 @@
-import { readFile } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 
 import { build } from 'esbuild'
 
 const packageJson = JSON.parse(await readFile(new URL('./package.json', import.meta.url), 'utf8'))
 
+await rm(new URL('./dist/index.js.map', import.meta.url), { force: true })
 await build({
   entryPoints: ['src/index.ts'],
   outfile: 'dist/index.js',
@@ -11,7 +12,7 @@ await build({
   platform: 'node',
   format: 'esm',
   target: 'node20',
-  sourcemap: true,
+  sourcemap: false,
   packages: 'external',
   banner: { js: '#!/usr/bin/env node' },
   define: { __TAODOCK_MCP_VERSION__: JSON.stringify(packageJson.version) },

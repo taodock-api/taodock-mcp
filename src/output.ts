@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { createWriteStream } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { Readable } from 'node:stream'
+import { Readable, Transform } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
 import type { ReadableStream as WebReadableStream } from 'node:stream/web'
 
@@ -44,11 +44,23 @@ export class OutputDirectory {
     return destination
   }
 
-  async saveResponse(stem: string, fallbackExtension: string, response: Response): Promise<string> {
+  async saveResponse(stem: string, fallbackExtension: string, response: Response, maxBytes?: number): Promise<string> {
     if (!response.body) throw new Error('The downloaded file is empty')
     await mkdir(this.root, { recursive: true })
     const destination = this.#path(stem, extensionFor(response.headers.get('content-type'), fallbackExtension))
-    await pipeline(Readable.fromWeb(response.body as WebReadableStream<Uint8Array>), createWriteStream(destination))
+    const source = Readable.fromWeb(response.body as WebReadableStream<Uint8Array>)
+    if (maxBytes === undefined) {
+      await pipeline(source, createWriteStream(destination))
+      return destination
+    }
+    let bytes = 0
+    const limiter = new Transform({
+      transform(chunk: Buffer, _encoding, callback) {
+        bytes += chunk.length
+        callback(bytes > maxBytes ? new Error(`Downloaded file exceeds the ${maxBytes} byte limit`) : null, chunk)
+      },
+    })
+    await pipeline(source, limiter, createWriteStream(destination))
     return destination
   }
 }

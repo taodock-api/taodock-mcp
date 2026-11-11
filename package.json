@@ -1,10 +1,13 @@
 {
-  "name": "@taodock/mcp-server",
+  "name": "@taodock-ai/mcp-server",
   "version": "0.2.0",
-  "description": "MCP server for TaoDock image and video generation.",
+  "description": "MCP server for TaoDock AI image and video generation.",
   "license": "MIT",
-  "author": "TaoDock",
-  "homepage": "https://taodock.com",
+  "author": {
+    "name": "TaoDock",
+    "url": "https://taodock.com"
+  },
+  "homepage": "https://github.com/taodock-api/taodock-mcp#readme",
   "mcpName": "io.github.taodock-api/mcp-server",
   "type": "module",
   "bin": {
@@ -21,10 +24,28 @@
   },
   "scripts": {
     "build": "node build.mjs",
+    "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "tsc -p tsconfig.test.json && node --test \"test-dist/test/**/*.test.js\"",
-    "pack:check": "npm run build && npm pack --dry-run",
+    "validate": "npm run typecheck && npm test && npm run build && npm pack --dry-run",
+    "prepack": "npm run typecheck && npm test && npm run build",
+    "pack:check": "npm pack --dry-run",
     "mcpb": "node build-mcpb.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "taodock",
+    "image-generation",
+    "video-generation",
+    "ai-tools",
+    "claude",
+    "cursor",
+    "vscode"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",

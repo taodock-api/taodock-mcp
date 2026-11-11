@@ -1,0 +1,44 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - "20.11.1"
+          - "22"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Check package contents
+        run: npm pack --dry-run
+      - name: Verify metadata versions
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises'
+          const pkg = JSON.parse(await readFile('package.json', 'utf8'))
+          const lock = JSON.parse(await readFile('package-lock.json', 'utf8'))
+          const server = JSON.parse(await readFile('server.json', 'utf8'))
+          if (pkg.version !== lock.version || pkg.version !== lock.packages[''].version) throw new Error('package-lock version mismatch')
+          if (pkg.version !== server.version || pkg.version !== server.packages[0].version) throw new Error('server.json version mismatch')
+          if (pkg.name !== server.packages[0].identifier) throw new Error('server.json package mismatch')
+          NODE

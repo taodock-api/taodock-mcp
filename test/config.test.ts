@@ -9,8 +9,10 @@ test('apiBaseUrl normalizes valid values', () => {
   assert.equal(apiBaseUrl('https://example.test'), 'https://example.test/v1')
 })
 
-test('apiBaseUrl rejects unsafe protocols', () => {
-  assert.throws(() => apiBaseUrl('file:///tmp/service'), /Invalid TaoDock API base URL/u)
+test('apiBaseUrl rejects unsafe protocols and embedded credentials', () => {
+  assert.throws(() => apiBaseUrl('file:///tmp/service'), /must use HTTPS/u)
+  assert.throws(() => apiBaseUrl('http://localhost:8080/v1'), /must use HTTPS/u)
+  assert.throws(() => apiBaseUrl('https://user:password@example.test/v1'), /must not contain credentials/u)
 })
 
 test('TaoDock links are deterministic', () => {

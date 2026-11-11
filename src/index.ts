@@ -20,6 +20,7 @@ import { extensionFor, OutputDirectory } from './output.js'
 const VERSION = __TAODOCK_MCP_VERSION__
 const LOCALE = process.env.TAODOCK_LOCALE === 'zh' ? 'zh' : 'en'
 const MAX_INLINE_IMAGE_BASE64 = 1_500_000
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024
 const MAX_WAIT_SECONDS = 300
 const output = new OutputDirectory(process.env.TAODOCK_OUTPUT_DIR?.trim() || path.join(process.cwd(), 'taodock-output'))
 
@@ -142,23 +143,21 @@ server.registerTool(
   'generate_image',
   {
     title: 'Generate an image',
-    description: 'Generates or edits an image with a TaoDock model and saves the result locally.',
+    description: 'Generates an image with a TaoDock model, consumes account quota, and saves the result locally.',
     inputSchema: {
       model: z.string().trim().min(1).describe('Image model ID returned by list_models.'),
       prompt: z.string().trim().min(1).describe('Image instruction.'),
       parameters: modelParameters,
-      edit: z.boolean().optional().describe('Use the image edits route when the selected model supports it.'),
     },
-    annotations: { openWorldHint: true },
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
   },
-  async ({ model: modelId, prompt, parameters, edit }) => {
+  async ({ model: modelId, prompt, parameters }) => {
     try {
       const model = await modelDirectory().find(modelId, 'image')
       const images = await generateImage(activeClient(), {
         model,
         prompt,
         ...(parameters ? { parameters } : {}),
-        ...(edit !== undefined ? { edit } : {}),
       })
       const saved: string[] = []
       const content: CallToolResult['content'] = []
@@ -171,9 +170,17 @@ server.registerTool(
           continue
         }
         if (image.url) {
-          const response = await fetch(image.url, { signal: AbortSignal.timeout(120_000) })
+          const imageUrl = new URL(image.url)
+          if (imageUrl.protocol !== 'https:') throw new Error('Generated image URL must use HTTPS')
+          const response = await fetch(imageUrl, { redirect: 'error', signal: AbortSignal.timeout(120_000) })
           if (!response.ok) throw new Error(`Generated image download returned HTTP ${response.status}`)
-          saved.push(await output.saveResponse(model.id, 'png', response))
+          const contentType = response.headers.get('content-type')?.split(';', 1)[0]?.trim().toLowerCase()
+          if (!contentType?.startsWith('image/')) throw new Error('Generated image download returned a non-image response')
+          const contentLength = Number(response.headers.get('content-length'))
+          if (Number.isFinite(contentLength) && contentLength > MAX_IMAGE_BYTES) {
+            throw new Error(`Generated image exceeds the ${MAX_IMAGE_BYTES} byte download limit`)
+          }
+          saved.push(await output.saveResponse(model.id, 'png', response, MAX_IMAGE_BYTES))
         }
       }
       content.unshift({ type: 'text', text: `Saved ${saved.length} image(s):\n${saved.join('\n')}` })
@@ -188,12 +195,12 @@ server.registerTool(
   'create_video',
   {
     title: 'Create a video task',
-    description: 'Starts an asynchronous TaoDock video generation task.',
+    description: 'Starts an asynchronous TaoDock video generation task and consumes account quota.',
     inputSchema: {
       model: z.string().trim().min(1).describe('Video model ID returned by list_models.'),
       request: z.record(z.string(), z.unknown()).describe('Video request fields from the TaoDock model guide.'),
     },
-    annotations: { openWorldHint: true },
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
   },
   async ({ model: modelId, request }) => {
     try {
@@ -232,7 +239,7 @@ server.registerTool(
       task_id: z.string().trim().min(1),
       wait_seconds: z.number().int().min(0).max(MAX_WAIT_SECONDS).optional(),
     },
-    annotations: { openWorldHint: true },
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
   },
   async ({ task_id: taskId, wait_seconds: waitSeconds }) => {
     try {

@@ -16,8 +16,11 @@ export function apiBaseUrl(value?: string): string {
   } catch {
     throw new TypeError(`Invalid TaoDock API base URL: ${configured}`)
   }
-  if (!['http:', 'https:'].includes(url.protocol)) {
-    throw new TypeError(`Invalid TaoDock API base URL: ${configured}`)
+  if (url.protocol !== 'https:') {
+    throw new TypeError(`TaoDock API base URL must use HTTPS: ${configured}`)
+  }
+  if (url.username || url.password) {
+    throw new TypeError(`TaoDock API base URL must not contain credentials: ${configured}`)
   }
   url.search = ''
   url.hash = ''

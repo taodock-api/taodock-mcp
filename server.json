@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.taodock-api/mcp-server",
-  "title": "TaoDock",
-  "description": "Generate images and videos with models enabled for a TaoDock API key.",
+  "title": "TaoDock AI Image & Video",
+  "description": "Discover authorized TaoDock models and generate images or videos from MCP clients.",
   "websiteUrl": "https://taodock.com",
   "repository": {
     "url": "https://github.com/taodock-api/taodock-mcp",
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "@taodock/mcp-server",
+      "identifier": "@taodock-ai/mcp-server",
       "version": "0.2.0",
       "transport": { "type": "stdio" },
       "environmentVariables": [
@@ -25,13 +25,19 @@
         },
         {
           "name": "TAODOCK_BASE_URL",
-          "description": "Optional API base URL override; defaults to https://taodock.com/v1",
+          "description": "Optional HTTPS API base URL override; defaults to https://taodock.com/v1. The API key is sent to this endpoint.",
           "isRequired": false,
           "isSecret": false
         },
         {
           "name": "TAODOCK_OUTPUT_DIR",
-          "description": "Directory for generated files; defaults to ./taodock-output",
+          "description": "Directory for generated files; an absolute path is recommended",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "TAODOCK_LOCALE",
+          "description": "Error message language: en or zh",
           "isRequired": false,
           "isSecret": false
         }
