@@ -1,0 +1,150 @@
+{
+  "identifier": "taodock-api-taodock-mcp",
+  "name": "TaoDock AI Image & Video",
+  "version": "0.2.0",
+  "description": "Discover authorized TaoDock models, generate images, create and monitor video jobs, and download completed media through a local stdio MCP server.",
+  "author": "TaoDock",
+  "authorUrl": "https://github.com/taodock-api",
+  "category": "media-generate",
+  "homepage": "https://github.com/taodock-api/taodock-mcp",
+  "icon": "https://raw.githubusercontent.com/taodock-api/taodock-mcp/main/assets/icon.png",
+  "tags": [
+    "image-generation",
+    "video-generation",
+    "generative-ai",
+    "mcp",
+    "taodock"
+  ],
+  "tools": [
+    {
+      "name": "list_models",
+      "description": "List image, video, or text models available to the configured TaoDock API key.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "image",
+              "video",
+              "text"
+            ],
+            "description": "Only include this model kind. Defaults to image and video models."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "generate_image",
+      "description": "Generate an image with a TaoDock model, consume account quota, and save the result locally.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Image model ID returned by list_models."
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Image generation instruction."
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Optional model-specific request fields from the TaoDock model guide.",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "model",
+          "prompt"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_video",
+      "description": "Start an asynchronous TaoDock video generation task and consume account quota.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Video model ID returned by list_models."
+          },
+          "request": {
+            "type": "object",
+            "description": "Video request fields from the TaoDock model guide.",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "model",
+          "request"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_video_status",
+      "description": "Return the current state of a TaoDock video generation task.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "TaoDock video task ID."
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "download_video",
+      "description": "Download a completed TaoDock video task to the configured local output directory.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "TaoDock video task ID."
+          },
+          "wait_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 300,
+            "description": "Optional time to wait for task completion before returning."
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": [],
+  "localizations": [
+    {
+      "locale": "zh-CN",
+      "name": "TaoDock AI 图片与视频",
+      "description": "通过本地 stdio MCP 服务发现 TaoDock 账号已授权模型，生成图片，创建并查询视频任务，以及下载生成完成的媒体文件。",
+      "tags": [
+        "图片生成",
+        "视频生成",
+        "生成式 AI",
+        "MCP",
+        "TaoDock"
+      ]
+    }
+  ]
+}

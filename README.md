@@ -57,6 +57,12 @@ Install the TaoDock plugin from the Cursor Marketplace when its listing is avail
 
 For manual setup, open **Settings → Tools & Integrations → MCP Tools → New MCP Server**, then add the JSON definition. Cursor also supports project configuration in `.cursor/mcp.json` and user configuration in `~/.cursor/mcp.json`.
 
+### LobeHub Desktop
+
+Install **TaoDock AI Image & Video** from the [LobeHub MCP Marketplace](https://lobehub.com/mcp) when its listing is available. TaoDock runs as a local stdio connector, so it requires LobeHub Desktop, Node.js 20.11 or later, and a TaoDock API key entered in the connector authentication settings.
+
+For manual configuration, use the Quick start definition above. Keep `TAODOCK_API_KEY` in LobeHub connector authentication settings rather than saving a real key in project files.
+
 ### VS Code
 
 Create `.vscode/mcp.json` in a workspace or use the user-level MCP configuration:
