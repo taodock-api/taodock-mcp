@@ -1,9 +1,9 @@
 {
   "identifier": "taodock-api-taodock-mcp",
-  "name": "TaoDock AI Image & Video",
+  "name": "Taodock AI Image & Video",
   "version": "0.2.0",
-  "description": "Discover authorized TaoDock models, generate images, create and monitor video jobs, and download completed media through a local stdio MCP server.",
-  "author": "TaoDock",
+  "description": "Discover authorized Taodock models, generate images, create and monitor video jobs, and download completed media through a local stdio MCP server.",
+  "author": "Taodock",
   "authorUrl": "https://github.com/taodock-api",
   "category": "media-generate",
   "homepage": "https://github.com/taodock-api/taodock-mcp",
@@ -18,7 +18,7 @@
   "tools": [
     {
       "name": "list_models",
-      "description": "List image, video, or text models available to the configured TaoDock API key.",
+      "description": "List image, video, or text models available to the configured Taodock API key.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -37,7 +37,7 @@
     },
     {
       "name": "generate_image",
-      "description": "Generate an image with a TaoDock model, consume account quota, and save the result locally.",
+      "description": "Generate an image with a Taodock model, consume account quota, and save the result locally.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -53,7 +53,7 @@
           },
           "parameters": {
             "type": "object",
-            "description": "Optional model-specific request fields from the TaoDock model guide.",
+            "description": "Optional model-specific request fields from the Taodock model guide.",
             "additionalProperties": true
           }
         },
@@ -66,7 +66,7 @@
     },
     {
       "name": "create_video",
-      "description": "Start an asynchronous TaoDock video generation task and consume account quota.",
+      "description": "Start an asynchronous Taodock video generation task and consume account quota.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -77,7 +77,7 @@
           },
           "request": {
             "type": "object",
-            "description": "Video request fields from the TaoDock model guide.",
+            "description": "Video request fields from the Taodock model guide.",
             "additionalProperties": true
           }
         },
@@ -90,14 +90,14 @@
     },
     {
       "name": "get_video_status",
-      "description": "Return the current state of a TaoDock video generation task.",
+      "description": "Return the current state of a Taodock video generation task.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "task_id": {
             "type": "string",
             "minLength": 1,
-            "description": "TaoDock video task ID."
+            "description": "Taodock video task ID."
           }
         },
         "required": [
@@ -108,14 +108,14 @@
     },
     {
       "name": "download_video",
-      "description": "Download a completed TaoDock video task to the configured local output directory.",
+      "description": "Download a completed Taodock video task to the configured local output directory.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "task_id": {
             "type": "string",
             "minLength": 1,
-            "description": "TaoDock video task ID."
+            "description": "Taodock video task ID."
           },
           "wait_seconds": {
             "type": "integer",
@@ -136,14 +136,14 @@
   "localizations": [
     {
       "locale": "zh-CN",
-      "name": "TaoDock AI 图片与视频",
-      "description": "通过本地 stdio MCP 服务发现 TaoDock 账号已授权模型，生成图片，创建并查询视频任务，以及下载生成完成的媒体文件。",
+      "name": "Taodock AI 图片与视频",
+      "description": "通过本地 stdio MCP 服务发现 Taodock 账号已授权模型，生成图片，创建并查询视频任务，以及下载生成完成的媒体文件。",
       "tags": [
         "图片生成",
         "视频生成",
         "生成式 AI",
         "MCP",
-        "TaoDock"
+        "Taodock"
       ]
     }
   ]

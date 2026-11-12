@@ -1,22 +1,22 @@
-# TaoDock AI Image & Video MCP Server
+# Taodock AI Image & Video MCP Server
 
 [![npm](https://img.shields.io/npm/v/@taodock-ai/mcp-server?label=npm)](https://www.npmjs.com/package/@taodock-ai/mcp-server)
 [![CI](https://github.com/taodock-api/taodock-mcp/actions/workflows/validate.yml/badge.svg)](https://github.com/taodock-api/taodock-mcp/actions/workflows/validate.yml)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-io.github.taodock--api%2Fmcp--server-6f42c1)](https://registry.modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Use TaoDock image and video models from Claude Desktop, Cursor, VS Code, Gemini CLI, and other local MCP clients. One TaoDock API key discovers the models authorized for your account, generates images, starts asynchronous video jobs, checks their status, and downloads completed media.
+Use Taodock image and video models from Claude Desktop, Cursor, VS Code, Gemini CLI, and other local MCP clients. One Taodock API key discovers the models authorized for your account, generates images, starts asynchronous video jobs, checks their status, and downloads completed media.
 
-> The server uses local **stdio** transport. It does not expose a remote HTTP or SSE endpoint. Image and video generation consume TaoDock quota and generated files are written to your computer.
+> The server uses local **stdio** transport. It does not expose a remote HTTP or SSE endpoint. Image and video generation consume Taodock quota and generated files are written to your computer.
 
-中文简介：在 Claude Desktop、Cursor、VS Code、Gemini CLI 等 MCP 客户端中调用 TaoDock 图片与视频模型。详细隐私边界见 [PRIVACY.md](PRIVACY.md)。
+中文简介：在 Claude Desktop、Cursor、VS Code、Gemini CLI 等 MCP 客户端中调用 Taodock 图片与视频模型。详细隐私边界见 [PRIVACY.md](PRIVACY.md)。
 
 `mcp-name: io.github.taodock-api/mcp-server`
 
 ## Requirements
 
 - Node.js 20.11 or later
-- A TaoDock account and API key
+- A Taodock account and API key
 - An MCP client that can launch a local stdio server
 
 Create an account at [taodock.com/sign-up](https://taodock.com/sign-up?utm_source=mcp-registry&utm_medium=plugin&utm_campaign=integrations), review your [wallet](https://taodock.com/wallet), then create a key at [taodock.com/keys](https://taodock.com/keys) with the models you need.
@@ -32,8 +32,8 @@ Use the same server definition in any MCP client that accepts `mcpServers` JSON:
       "command": "npx",
       "args": ["-y", "@taodock-ai/mcp-server@0.2.0"],
       "env": {
-        "TAODOCK_API_KEY": "<your TaoDock API key>",
-        "TAODOCK_OUTPUT_DIR": "/absolute/path/to/TaoDock"
+        "TAODOCK_API_KEY": "<your Taodock API key>",
+        "TAODOCK_OUTPUT_DIR": "/absolute/path/to/Taodock"
       }
     }
   }
@@ -53,13 +53,13 @@ Restart Claude Desktop after saving. You can also install the signed release art
 
 ### Cursor
 
-Install the TaoDock plugin from the Cursor Marketplace when its listing is available, then enter your TaoDock API key in the plugin configuration. The plugin starts the pinned npm package locally over stdio and never stores a key in this repository.
+Install the Taodock plugin from the Cursor Marketplace when its listing is available, then enter your Taodock API key in the plugin configuration. The plugin starts the pinned npm package locally over stdio and never stores a key in this repository.
 
 For manual setup, open **Settings → Tools & Integrations → MCP Tools → New MCP Server**, then add the JSON definition. Cursor also supports project configuration in `.cursor/mcp.json` and user configuration in `~/.cursor/mcp.json`.
 
 ### LobeHub Desktop
 
-Install **TaoDock AI Image & Video** from the [LobeHub MCP Marketplace](https://lobehub.com/mcp) when its listing is available. TaoDock runs as a local stdio connector, so it requires LobeHub Desktop, Node.js 20.11 or later, and a TaoDock API key entered in the connector authentication settings.
+Install **Taodock AI Image & Video** from the [LobeHub MCP Marketplace](https://lobehub.com/mcp/taodock-api-taodock-mcp). Taodock runs as a local stdio connector, so it requires LobeHub Desktop, Node.js 20.11 or later, and a Taodock API key entered in the connector authentication settings.
 
 For manual configuration, use the Quick start definition above. Keep `TAODOCK_API_KEY` in LobeHub connector authentication settings rather than saving a real key in project files.
 
@@ -76,7 +76,7 @@ Create `.vscode/mcp.json` in a workspace or use the user-level MCP configuration
       "args": ["-y", "@taodock-ai/mcp-server@0.2.0"],
       "env": {
         "TAODOCK_API_KEY": "${input:taodock-api-key}",
-        "TAODOCK_OUTPUT_DIR": "/absolute/path/to/TaoDock"
+        "TAODOCK_OUTPUT_DIR": "/absolute/path/to/Taodock"
       }
     }
   },
@@ -84,7 +84,7 @@ Create `.vscode/mcp.json` in a workspace or use the user-level MCP configuration
     {
       "id": "taodock-api-key",
       "type": "promptString",
-      "description": "TaoDock API key",
+      "description": "Taodock API key",
       "password": true
     }
   ]
@@ -98,7 +98,7 @@ Add a local MCP server with Gemini CLI:
 ```bash
 gemini mcp add --scope user \
   -e TAODOCK_API_KEY=<your-key> \
-  -e TAODOCK_OUTPUT_DIR=/absolute/path/to/TaoDock \
+  -e TAODOCK_OUTPUT_DIR=/absolute/path/to/Taodock \
   taodock npx -y @taodock-ai/mcp-server@0.2.0
 ```
 
@@ -106,7 +106,7 @@ gemini mcp add --scope user \
 
 | Variable | Required | Description |
 |---|---:|---|
-| `TAODOCK_API_KEY` | Yes | TaoDock API key from [taodock.com/keys](https://taodock.com/keys) |
+| `TAODOCK_API_KEY` | Yes | Taodock API key from [taodock.com/keys](https://taodock.com/keys) |
 | `TAODOCK_BASE_URL` | No | Trusted HTTPS-compatible endpoint; defaults to `https://taodock.com/v1`. The API key is sent to this endpoint. |
 | `TAODOCK_OUTPUT_DIR` | No | Directory for generated files. Use an absolute path; otherwise the default is `./taodock-output` relative to the MCP process. |
 | `TAODOCK_LOCALE` | No | Error language: `en` or `zh`; defaults to `en` |
@@ -123,18 +123,18 @@ Never configure an untrusted base URL. The server rejects plain HTTP and URLs co
 | `get_video_status` | Read a video task's current status | Read-only API request |
 | `download_video` | Wait for and save a completed video | Writes a local file |
 
-Image-specific fields belong in `parameters`; video-specific fields belong in `request`. The selected model and prompt cannot be overridden by these objects. Consult the [TaoDock model guide](https://docs.taodock.com/en/guide/models.html) for supported fields.
+Image-specific fields belong in `parameters`; video-specific fields belong in `request`. The selected model and prompt cannot be overridden by these objects. Consult the [Taodock model guide](https://docs.taodock.com/en/guide/models.html) for supported fields.
 
 ### Example prompts
 
 ```text
-List the image models available to my TaoDock key.
+List the image models available to my Taodock key.
 Generate a 1024×1024 product hero image with a clean white background.
 Create a video task with an available video model and return the task ID immediately.
 Check video task <task-id>, then download it when completed.
 ```
 
-Review usage and costs in [TaoDock usage logs](https://taodock.com/usage-logs/common).
+Review usage and costs in [Taodock usage logs](https://taodock.com/usage-logs/common).
 
 ## Run from source
 
@@ -154,7 +154,7 @@ For local client development, replace the `npx` command with an absolute path to
 - Generated image URLs must use HTTPS, redirects are rejected, responses must be images, and downloads are limited to 25 MiB.
 - Generated media remains in `TAODOCK_OUTPUT_DIR` until you delete it.
 - The MCP host may retain prompts, tool results, file paths, or logs according to its settings.
-- See [PRIVACY.md](PRIVACY.md) and the [TaoDock privacy policy](https://taodock.com/privacy-policy).
+- See [PRIVACY.md](PRIVACY.md) and the [Taodock privacy policy](https://taodock.com/privacy-policy).
 
 Report vulnerabilities privately through the repository's GitHub security advisory page. Do not include API keys in public issues.
 
@@ -167,7 +167,7 @@ Report vulnerabilities privately through the repository's GitHub security adviso
 - **Server exits immediately**: use Node.js 20.11 or later and inspect the MCP client's stderr logs.
 - **Cannot find generated files**: set `TAODOCK_OUTPUT_DIR` to an absolute path.
 
-## TaoDock integrations
+## Taodock integrations
 
 - [n8n community nodes](https://github.com/taodock-api/taodock-n8n-nodes)
 - [Vercel AI SDK provider](https://github.com/taodock-api/taodock-ai-sdk)
@@ -179,4 +179,4 @@ Documentation: https://docs.taodock.com · Support: https://github.com/taodock-a
 
 ## License
 
-MIT © TaoDock
+MIT © Taodock
