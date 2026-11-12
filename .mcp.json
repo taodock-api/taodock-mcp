@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "taodock": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@taodock-ai/mcp-server@0.2.0"
+      ],
+      "env": {
+        "TAODOCK_API_KEY": "${TAODOCK_API_KEY}",
+        "TAODOCK_OUTPUT_DIR": "${TAODOCK_OUTPUT_DIR}",
+        "TAODOCK_LOCALE": "${TAODOCK_LOCALE}"
+      }
+    }
+  }
+}

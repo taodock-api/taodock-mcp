@@ -1,0 +1,46 @@
+{
+  "name": "taodock-mcp",
+  "version": "0.2.0",
+  "description": "Discover authorized TaoDock models and generate images or videos in Cursor.",
+  "author": {
+    "name": "TaoDock"
+  },
+  "homepage": "https://taodock.com",
+  "repository": "https://github.com/taodock-api/taodock-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "image-generation",
+    "video-generation",
+    "ai-tools"
+  ],
+  "logo": "assets/icon.png",
+  "variables": {
+    "type": "object",
+    "properties": {
+      "TAODOCK_API_KEY": {
+        "type": "string",
+        "title": "TaoDock API key",
+        "description": "Create an API key at https://taodock.com/keys."
+      },
+      "TAODOCK_OUTPUT_DIR": {
+        "type": "string",
+        "title": "Output directory",
+        "description": "Optional directory for generated images and videos. Use an absolute path."
+      },
+      "TAODOCK_LOCALE": {
+        "type": "string",
+        "title": "Error language",
+        "description": "Language used for server error messages.",
+        "enum": [
+          "en",
+          "zh"
+        ],
+        "default": "en"
+      }
+    },
+    "required": [
+      "TAODOCK_API_KEY"
+    ]
+  }
+}

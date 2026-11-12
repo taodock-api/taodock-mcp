@@ -53,7 +53,9 @@ Restart Claude Desktop after saving. You can also install the signed release art
 
 ### Cursor
 
-Open **Settings → Tools & Integrations → MCP Tools → New MCP Server**, then add the JSON definition. Cursor also supports project configuration in `.cursor/mcp.json` and user configuration in `~/.cursor/mcp.json`.
+Install the TaoDock plugin from the Cursor Marketplace when its listing is available, then enter your TaoDock API key in the plugin configuration. The plugin starts the pinned npm package locally over stdio and never stores a key in this repository.
+
+For manual setup, open **Settings → Tools & Integrations → MCP Tools → New MCP Server**, then add the JSON definition. Cursor also supports project configuration in `.cursor/mcp.json` and user configuration in `~/.cursor/mcp.json`.
 
 ### VS Code
 
